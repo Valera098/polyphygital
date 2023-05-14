@@ -8,7 +8,7 @@ def index(request):
     return render(request, 'newsblock/index.html', {'title': 'Главная'});
 
 def news(request):
-    posts = News.objects.all()
+    posts = News.objects.filter(is_visible="True")
 
     context = {
         'posts': posts,
