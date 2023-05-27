@@ -13,7 +13,7 @@ class NewsAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
     ordering = ('-time_created', 'title')
-    # prepopulated_fields = {"slug": ("title",)}
+    prepopulated_fields = {"slug": ("title",)}
 
     def news_category(self, obj):
         return obj.news_categories_id.name

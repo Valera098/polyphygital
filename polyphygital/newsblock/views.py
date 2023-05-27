@@ -17,8 +17,8 @@ def news(request):
 
     return render(request, 'newsblock/news.html', context=context);
 
-def show_post(request, post_id):
-    post = get_object_or_404(News, id=post_id)
+def show_post(request, post_slug):
+    post = get_object_or_404(News, slug=post_slug)
 
     context = {
         'title':post.title,

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class News(models.Model):
     title = models.CharField(max_length=60, verbose_name = 'Заголовок')
-    # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     news_categories_id = models.ForeignKey('News_Category', on_delete=models.PROTECT, null=True, verbose_name = 'Категория')
     time_created = models.DateTimeField(auto_now_add=True, verbose_name = 'Дата публикации')
     content = models.TextField(max_length=15000, verbose_name = 'Текст новости')
@@ -16,7 +16,7 @@ class News(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post', kwargs={'post_id': self.pk})
+        return reverse('post', kwargs={'post_slug': self.slug})
 
     class Meta:
         verbose_name = 'Новость'
