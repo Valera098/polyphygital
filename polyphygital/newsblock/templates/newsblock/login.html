@@ -1,0 +1,21 @@
+{% extends 'newsblock/base.html' %}
+
+{% block content %}
+
+<br>
+<h1>Страница АВТОРИЗАЦИИ</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    {% for f in form %}
+    <p><label>{{f.label}}: </label>{{ f }}</p>
+    {% endfor %}
+     <div>{{ form.non_field_errors }}</div>
+    {% for f in form %}
+    <div>{{ f.errors }}</div>
+    {% endfor %}
+
+    <button type="submit"> Войти </button>
+</form>
+{% endblock %}
