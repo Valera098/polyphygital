@@ -16,7 +16,7 @@ def index(request):
     context = {
         'title': 'Главная',
     }
-    return render(request, 'newsblock/index.html', context=context);
+    return render(request, 'newsblock/index.html', context=context)
 
 def news(request):
     posts = News.objects.filter(is_visible="True")
@@ -26,17 +26,8 @@ def news(request):
         'title': 'Новости',
     }
 
-    return render(request, 'newsblock/news.html', context=context);
+    return render(request, 'newsblock/news.html', context=context)
 
-def news2(request):
-    posts = News.objects.filter(is_visible="True")
-
-    context = {
-        'posts': json.dumps(posts),
-        'title': 'Новости',
-    }
-
-    return render(request, 'newsblock/news2', context=context);
 # def show_post(request, post_slug):
 #     post = get_object_or_404(News, slug=post_slug)
 #     comments = Comments.objects.filter(news_id=post.id)
@@ -67,7 +58,7 @@ def show_post(request, post_slug):
         'comments': comments,
         'form': form,
     }
-    return render(request, 'newsblock/post.html', context=context);
+    return render(request, 'newsblock/post.html', context=context)
 
 class CommentView(FormView):
     template_name = 'newsblock/post.html'
