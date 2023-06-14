@@ -1,0 +1,21 @@
+{% extends 'newsblock/base.html' %}
+{% block content %}
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+{% if post.image %}
+<img src="{{ post.image.url }}" alt="{{ post.title }}">
+{% endif %}
+<h2>Комментарии</h2>
+{% for comment in comments %}
+<div class="comment">
+    <p>{{ comment.content }}</p>
+    <p>Автор: {{ comment.user_id.username }}</p>
+    <p>Дата публикации: {{ comment.time_created }}</p>
+</div>
+{% endfor %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Оставить комментарий</button>
+</form>
+{% endblock %}

@@ -1,25 +1,24 @@
 {% extends 'newsblock/base.html' %}
 
 {% block content %}
-
-<br>
-<h1>НОВОСТНАЯ страница</h1>
-
-<ul>
+<div>
+<h1>Новости</h1>
+<ul class="list-articles">
 {% for p in posts %}
-    <li>
+    <li  class="article-panel">
         <div>
-            <p>Категория: {{p.news_categories_id}}</p>
+            <h2>{{p.title}}</h2>
+            <p>Категория: {{p.news_categories_id}} </p>
             <p>Дата: {{p.time_created|date:"d-m-Y H:i:s"}}</p>
         </div>
 {% if p.photo %}
 <!--    <p><img src="{{p.photo.url}}"></p>-->
 {% endif %}
-        <h2>{{p.title}}</h2>
         {{p.content|truncatewords:100}}
         <p ><a href="{{ p.get_absolute_url }}">Читать пост</a></p>
         <hr>
     </li>
 {% endfor %}
 </ul>
+</div>
 {% endblock %}

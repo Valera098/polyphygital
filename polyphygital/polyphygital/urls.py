@@ -24,7 +24,8 @@ from polyphygital import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('newsblock.urls'))
+    path('', include('newsblock.urls')),
+    path('', include('gameblock.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,14 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
+	<link type="text/css" href="{% static 'newsblock/css/styles.css' %}" rel="stylesheet" />
 </head>
 <body>
-    <h2>ЗАГРУЖЕН base.html</h2>
-    
-    {% block content %}
-    <!-- Отображается контент загруженной страницы -->
-    {% endblock %}
+
+{% block mainmenu %}
+		<div class="header">
+			<ul id="mainmenu" class="mainmenu">
+			<li><a href="{% url 'homepage' %}">Главная</a></li>
+			<li><a href="{% url 'newspage' %}">Новости</a></li>
+			<li><a href="{% url 'shedule' %}">Расписание</a></li>
+			<li><a href="{% url 'ratings' %}">Рейтинги</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+{% endblock mainmenu %}
+
+{% block content %}
+ <!-- Отображается контент загруженной страницы -->
+{% endblock %}
+
+
 </body>
 </html>

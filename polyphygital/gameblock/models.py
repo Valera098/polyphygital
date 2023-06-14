@@ -75,7 +75,7 @@ class Game(models.Model):
     class Meta:
         verbose_name = 'Игра'
         verbose_name_plural = 'Игры'
-        ordering = ['id']
+        ordering = ['date_start']
 
     def __str__(self):
         return f"{self.discipline_id.name} ({datetime.strftime(self.date_start, '%d.%m.%Y %H:%M')}) - ID: {self.id}"
