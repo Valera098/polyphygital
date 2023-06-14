@@ -315,4 +315,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-media/photos
+/polyphygital/media/photos
+/polyphygital/db.sqlite3
