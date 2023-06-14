@@ -1,6 +1,13 @@
+@font-face {
+  font-family: "Shentox";
+  /* Браузер сначала попробует найти шрифт локально */
+  src: local("Shentox-Regular RUS.ttf")
+}
+
 html, body {
     font-family: Shentox;
     margin: 0px;
+    background-color: #3b3b3b;
 }
 
 /* Header */
@@ -51,7 +58,7 @@ margin: 0 20px;
 }
 
 header  nav li a:hover {
-color: #39ff7a;
+color: #007bff;
 }
 
 header nav a {
@@ -96,7 +103,25 @@ cursor: pointer;
 
 .content {
     width: 100%;
-    height: 3000px;
+}
+
+.breadcrumbs {
+font-size: 14px;
+color: #999;
+margin-top: 50px;
+margin-bottom: 0;
+margin-left: 40px;
+}
+
+.breadcrumbs :hover {
+font-size: 14px;
+color: #007bff;
+margin-top: 10px;
+margin-bottom: 0;
+}
+
+a .breadcrumbs {
+  text-decoration:none;
 }
 
 /* Footer */
@@ -159,7 +184,7 @@ font-weight: bold;
 }
 
 .footer-links a:hover {
-color: #39ff7a;
+color: #007bff;
 }
 
 .copyright p {

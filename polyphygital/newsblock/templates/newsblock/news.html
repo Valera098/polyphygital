@@ -1,23 +1,31 @@
 {% extends 'newsblock/base.html' %}
 
 {% block content %}
+<div class="h1">
+<div class="breadcrumbs">
+    <a href="{% url 'homepage' %}">Главная</a> > <a href="{% url 'newspage' %}">Новости</a>
+</div>
+<h1>Новостной блок</h1>
+</div>
 <div>
-<h1>Новости</h1>
 <ul class="list-articles">
 {% for p in posts %}
-    <li  class="article-panel">
-        <div>
-            <h2>{{p.title}}</h2>
-            <p>Категория: {{p.news_categories_id}} </p>
-            <p>Дата: {{p.time_created|date:"d-m-Y H:i:s"}}</p>
+    <div class="card">
+        <div class="card-image">
+        {% if p.image %}
+        <img src="{{p.image.url}}">
+        {% else %}
+        <img src="../media/photos/placeholder.jpeg">
+        {% endif %}
         </div>
-{% if p.photo %}
-<!--    <p><img src="{{p.photo.url}}"></p>-->
-{% endif %}
-        {{p.content|truncatewords:100}}
-        <p ><a href="{{ p.get_absolute_url }}">Читать пост</a></p>
-        <hr>
-    </li>
+            <div class="card-content">
+                <h2 class="card-title">{{p.title}}</h2>
+                <p class="card-category">Категория: {{p.news_categories_id}} </p>
+                <p class="card-date">{{p.time_created|date:"d-m-Y H:i"}}</p>
+                <p class="card-text">{{p.content|truncatewords:100}}</p>
+                <a href="{{ p.get_absolute_url }}" class="card-link">Читать новость</a>
+            </div>
+    </div>
 {% endfor %}
 </ul>
 </div>

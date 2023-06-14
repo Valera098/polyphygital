@@ -3,6 +3,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+
     path('', index, name = 'homepage'),
     path('news/', news, name = 'newspage'),
     path('news2/', news2, name = 'newspage2'), #удалить

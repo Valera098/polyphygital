@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class News(models.Model):
     title = models.CharField(max_length=60, verbose_name = 'Заголовок')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
-    news_categories_id = models.ForeignKey('News_Category', on_delete=models.PROTECT, null=True, verbose_name = 'Категория')
+    news_categories_id = models.ForeignKey('News_Category', on_delete=models.CASCADE, null=True, verbose_name = 'Категория')
     time_created = models.DateTimeField(auto_now_add=True, verbose_name = 'Дата публикации')
     content = models.TextField(max_length=15000, verbose_name = 'Текст новости')
     image = models.ImageField(upload_to='photos', blank=True, verbose_name = 'Фотография')
