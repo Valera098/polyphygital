@@ -86,7 +86,7 @@ class CommentView(FormView):
         return reverse('post', kwargs={'post_slug': self.kwargs['post_slug']})
 
 def pageNotFound(request, exception):
-    return HttpResponse('Ты находишься на <b>СТРАНИЦЕ ОШИБКИ</b>');
+    return HttpResponse('Ты находишься на <b>СТРАНИЦЕ ОШИБКИ</b>')
     # return render(request, 'newsblock/404.html', {'menu': menu, 'title': 'Упс...'})
 
 
