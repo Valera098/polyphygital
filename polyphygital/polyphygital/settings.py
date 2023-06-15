@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'newsblock.apps.NewsblockConfig',
     'gameblock.apps.GameblockConfig',
+    'forumblock.apps.ForumblockConfig',
 ]
 
 MIDDLEWARE = [

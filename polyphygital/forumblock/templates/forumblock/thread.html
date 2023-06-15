@@ -2,20 +2,17 @@
 
 {% block content %}
 <div class="breadcrumbs">
-    <a href="{% url 'homepage' %}">Главная</a> > <a href="{% url 'newspage' %}">Новости</a> > {{title}}
+    <a href="{% url 'homepage' %}">Главная</a> > <a href="{% url 'forum' %}">Новости</a> > {{title}}
 </div>
 <div class="h1">
 <h1>{{title}}</h1>
 </div>
 <div>
-    <p>Категория: {{post.news_categories_id}}</p>
-    <p>Дата: {{post.time_created|date:"d-m-Y H:i:s"}}</p>
+    <p>Категория: {{thread.news_categories_id}}</p>
+    <p>Дата: {{thread.time_created|date:"d-m-Y H:i:s"}}</p>
 </div>
-{% if post.photo %}
-    <p><img src="{{p.photo.url}}"></p>
-{% endif %}
-    <h2>{{post.title}}</h2>
-    {{post.content}}
+
+{{thread.content}}
 
 <h2>Комментарии</h2>
 Всего комментариев: {{comments.count}}

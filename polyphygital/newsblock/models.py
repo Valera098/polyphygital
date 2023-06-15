@@ -4,9 +4,9 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 class News(models.Model):
-    title = models.CharField(max_length=60, verbose_name = 'Заголовок')
+    title = models.CharField(max_length=60, verbose_name = 'Заголовок новости')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
-    news_categories_id = models.ForeignKey('News_Category', on_delete=models.CASCADE, null=True, verbose_name = 'Категория')
+    news_categories_id = models.ForeignKey('News_Category', on_delete=models.CASCADE, null=True, verbose_name = 'Категория новости')
     time_created = models.DateTimeField(auto_now_add=True, verbose_name = 'Дата публикации')
     content = models.TextField(max_length=15000, verbose_name = 'Текст новости')
     image = models.ImageField(upload_to='photos', blank=True, verbose_name = 'Фотография')
@@ -24,7 +24,7 @@ class News(models.Model):
         ordering = ['-time_created', 'title']
 
 class News_Category(models.Model):
-    name = models.CharField(max_length=25, verbose_name = 'Категория')
+    name = models.CharField(max_length=25, verbose_name = 'Категория новости')
     discription = models.TextField(max_length=100, verbose_name='Описание категории')
 
     def __str__(self):
@@ -45,3 +45,4 @@ class Comments(models.Model):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
         ordering = ['time_created']
+

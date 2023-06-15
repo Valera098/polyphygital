@@ -1,0 +1,25 @@
+{% extends 'newsblock/base.html' %}
+
+{% block content %}
+<div class="breadcrumbs">
+    <a href="{% url 'homepage' %}">Главная</a> > Форум
+</div>
+<div class="h1">
+<h1>Форум</h1>
+</div>
+<div>
+<ul class="list-articles">
+{% for p in threads %}
+    <div class="card">
+            <div class="card-content">
+                <h2 class="card-title">{{p.title}}</h2>
+                <p class="card-category">{{p.topic_category_id}}, от {{p.user_id}} </p>
+                <p class="card-date">{{p.time_created|date:"d-m-Y H:i"}}</p>
+                <p class="card-text">{{p.content|truncatewords:20}}</p>
+                <a href="{{ p.get_absolute_url }}" class="card-link">Перейти к обсуждению</a>
+            </div>
+    </div>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}
