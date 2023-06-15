@@ -35,7 +35,7 @@ class News_Category(models.Model):
         verbose_name_plural = 'Категории новостей'
         ordering = ['name']
 
-class Comments(models.Model):
+class News_Comment(models.Model):
     news_id = models.ForeignKey(News, on_delete=models.PROTECT, verbose_name='Новость')
     user_id = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Пользователь')
     time_created = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')

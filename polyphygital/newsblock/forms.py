@@ -20,5 +20,5 @@ class LoginUserForm(AuthenticationForm):
 
 class CommentForm(forms.ModelForm):
     class Meta:
-        model = Comments
+        model = News_Comment
         fields = ['content']

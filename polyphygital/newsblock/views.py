@@ -41,7 +41,7 @@ def news(request):
 
 def show_post(request, post_slug):
     post = get_object_or_404(News, slug=post_slug)
-    comments = Comments.objects.filter(news_id=post.id)
+    comments = News_Comment.objects.filter(news_id=post.id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
