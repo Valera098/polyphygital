@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views.generic import CreateView, FormView
 import json
 
-from forumblock.forms import TopicCommentForm
+from forumblock.forms import *
 from forumblock.models import *
 from newsblock.models import *
 
@@ -63,5 +63,6 @@ class CommentView(FormView):
 def new_thread(request):
     context = {
         'title': 'Новое обсуждение',
+        'form': TopicForm
     }
     return render(request, 'forumblock/newthread.html', context=context)

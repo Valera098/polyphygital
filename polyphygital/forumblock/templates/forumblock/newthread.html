@@ -5,6 +5,15 @@
     <title>{{title}}</title>
 </head>
 <body>
-новое обсуждение
+{% if user.is_authenticated %}
+<div>
+<p>Новое обсуждение</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать обсуждение</button>
+</form>
+</div>
+{% endif %}
 </body>
 </html>
