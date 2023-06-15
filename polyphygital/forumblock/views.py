@@ -59,3 +59,9 @@ class CommentView(FormView):
 
     def get_success_url(self):
         return reverse('thread', kwargs={'thread_slug': self.kwargs['thread_slug']})
+
+def new_thread(request):
+    context = {
+        'title': 'Новое обсуждение',
+    }
+    return render(request, 'forumblock/newthread.html', context=context)
