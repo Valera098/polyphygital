@@ -1,0 +1,38 @@
+{% extends 'newsblock/base.html' %}
+
+{% block content %}
+<div class="breadcrumbs">
+    <a href="{% url 'homepage' %}">Главная</a> > <a href="{% url 'forum' %}">Новости</a> > {{title}}
+</div>
+<div class="h1">
+<h1>{{title}}</h1>
+</div>
+<div>
+    <p>Категория: {{thread.news_categories_id}}</p>
+    <p>Дата: {{thread.time_created|date:"d-m-Y H:i:s"}}</p>
+</div>
+
+{{thread.content}}
+
+<h2>Комментарии</h2>
+Всего комментариев: {{comments.count}}
+
+{% if user.is_authenticated %}
+<div>
+<p>Добавить комментарий</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Оставить комментарий</button>
+</form>
+</div>
+{% endif %}
+
+<div>
+{% for c in comments %}
+    <h3>{{c.user_id}} - {{c.time_created}}</h3>
+    {{c.content}}
+{% endfor %}
+</div>
+
+{% endblock %}

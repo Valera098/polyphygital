@@ -15,8 +15,8 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
-    # def get_absolute_url(self):
-    #     return reverse('tread', kwargs={'topic_slug': self.slug})
+    def get_absolute_url(self):
+        return reverse('thread', kwargs={'thread_slug': self.slug})
 
     class Meta:
         verbose_name = 'Обсуждение'
