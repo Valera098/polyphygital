@@ -12,6 +12,14 @@ from newsblock.forms import *
 from newsblock.models import *
 from newsblock.utils import *
 from gameblock.urls import *
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import News
+from .serializers import NewsSerializer
+from django.shortcuts import render
+
 def index(request):
     context = {
         'title': 'Главная',
@@ -27,6 +35,12 @@ def news(request):
     }
 
     return render(request, 'newsblock/news.html', context=context)
+
+class NewsView(APIView):
+    def get(self, request, format=None):
+        posts = News.objects.filter(is_visible=True)
+        serializer = NewsSerializer(posts, many=True)
+        return Response(serializer.data)
 
 # def show_post(request, post_slug):
 #     post = get_object_or_404(News, slug=post_slug)
