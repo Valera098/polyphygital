@@ -11,6 +11,6 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
 ]
 
-urlpatterns = [
-    path('API/news/', NewsView.as_view()),
-]
+# urlpatterns = [
+#     path('API/news/', NewsView.as_view()),
+# ]
