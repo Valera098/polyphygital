@@ -9,8 +9,11 @@ from django.utils import timezone
 from django.views.generic import CreateView, FormView
 import json
 
+from rest_framework import viewsets
+
 from forumblock.forms import *
 from forumblock.models import *
+from forumblock.serializers import *
 from newsblock.models import *
 
 
@@ -74,3 +77,15 @@ def new_thread(request):
         'form': TopicForm
     }
     return render(request, 'forumblock/newthread.html', context=context)
+
+class TopicViewSet(viewsets.ModelViewSet):
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
+
+class Topic_CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Topic_Category.objects.all()
+    serializer_class = Topic_CategorySerializer
+
+class Topic_CommentViewSet(viewsets.ModelViewSet):
+    queryset = Topic_Comment.objects.all()
+    serializer_class = Topic_CommentSerializer

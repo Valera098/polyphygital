@@ -8,8 +8,11 @@ from django.views.generic import CreateView
 from django.shortcuts import render
 from datetime import datetime, timedelta
 from django.db.models import Q
+from rest_framework import viewsets
 
 from gameblock.models import *
+from gameblock.serializers import *
+
 
 def shedule(request):
     current_time = datetime.now()
@@ -38,3 +41,27 @@ def ratings(request):
         'player_data': player_data
     }
     return render(request, 'gameblock/ratings.html', context=context)
+
+class TeamViewSet(viewsets.ModelViewSet):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+
+class DisciplineViewSet(viewsets.ModelViewSet):
+    queryset = Discipline.objects.all()
+    serializer_class = DisciplineSerializer
+
+class PlayerViewSet(viewsets.ModelViewSet):
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer
+
+class TournamentViewSet(viewsets.ModelViewSet):
+    queryset = Tournament.objects.all()
+    serializer_class = TournamentSerializer
+
+class GameViewSet(viewsets.ModelViewSet):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+class PlayerscoreViewSet(viewsets.ModelViewSet):
+    queryset = Playerscore.objects.all()
+    serializer_class = PlayerscoreSerializer

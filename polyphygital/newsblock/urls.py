@@ -1,6 +1,12 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
 from .views import *
+
+router = routers.SimpleRouter()
+router.register(r'news', NewsViewSet)
+router.register(r'news-categories', News_CategoryViewSet)
+router.register(r'news-comments', News_CommentViewSet)
 
 urlpatterns = [
     path('', index, name = 'homepage'),
@@ -9,8 +15,5 @@ urlpatterns = [
     path('register/', RegisterUser.as_view(), name = 'register'),
     path('login/', LoginUser.as_view(), name = 'login'),
     path('logout/', logout_user, name='logout'),
+    path('api/', include(router.urls)),
 ]
-
-# urlpatterns = [
-#     path('API/news/', NewsView.as_view()),
-# ]

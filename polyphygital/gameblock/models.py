@@ -73,7 +73,7 @@ class Tournament(models.Model):
 class Game(models.Model):
     tournament_id = models.ForeignKey('Tournament', on_delete=models.PROTECT, blank=True, null=True, verbose_name='Турнир')
     discipline_id = models.ForeignKey('Discipline', on_delete=models.PROTECT, blank=False, null=False, verbose_name='Дисциплина')
-    date_start = date_start = models.DateTimeField(verbose_name='Время начала')
+    date_start = models.DateTimeField(verbose_name='Время начала')
     team_id = models.ManyToManyField('Team', verbose_name='Участники', related_name='games')
     is_finished = models.BooleanField(default=False, verbose_name='Оконченность')
     winner_id = models.ForeignKey('Team', on_delete=models.PROTECT, blank=True, null=True, verbose_name='Победитель',related_name='won_games')

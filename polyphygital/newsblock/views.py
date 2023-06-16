@@ -15,11 +15,11 @@ from gameblock.urls import *
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status, generics, viewsets
 from .models import News
 from django.shortcuts import render
 
-from .serializers import NewsSerializer
+from .serializers import *
 
 
 def index(request):
@@ -38,11 +38,22 @@ def news(request):
 
     return render(request, 'newsblock/news.html', context=context)
 
-class NewsView(APIView):
-    def get(self, request, format=None):
-        posts = News.objects.filter(is_visible=True)
-        serializer = NewsSerializer(posts, many=True)
-        return Response(serializer.data)
+class NewsViewSet(viewsets.ModelViewSet):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+
+class News_CategoryViewSet(viewsets.ModelViewSet):
+    queryset = News_Category.objects.all()
+    serializer_class = News_CategorySerializer
+
+class News_CommentViewSet(viewsets.ModelViewSet):
+    queryset = News_Comment.objects.all()
+    serializer_class = News_CommentSerializer
+
+    # def get(self, request, format=None):
+    #     posts = News.objects.filter(is_visible=True)
+    #     serializer = NewsSerializer(posts, many=True)
+    #     return Response(serializer.data)
 
 # def show_post(request, post_slug):
 #     post = get_object_or_404(News, slug=post_slug)
