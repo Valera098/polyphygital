@@ -1,0 +1,9 @@
+{% extends 'newsblock/base.html' %}
+
+{% block content %}
+
+    {% for p in player_data %}
+        <p>{{ p.nickname }} - Игр сыграно : {{p.games_played}} - Средний рейтинг : {{p.average_score}}</p>
+    {% endfor %}
+
+{% endblock %}

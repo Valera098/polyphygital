@@ -1,6 +1,7 @@
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
+from django.db.models import Max, OuterRef, Subquery
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -8,13 +9,23 @@ from django.utils import timezone
 from django.views.generic import CreateView, FormView
 import json
 
-from forumblock.forms import TopicCommentForm
+from rest_framework import viewsets
+
+from forumblock.forms import *
 from forumblock.models import *
+from forumblock.serializers import *
 from newsblock.models import *
 
 
 def forum(request):
-    threads = Topic.objects.all()
+    threads = Topic.objects.annotate(
+        last_comment_time=Max('topic_comment__time_created'),
+        last_comment_author=Subquery(
+            Topic_Comment.objects.filter(
+                topic_id=OuterRef('pk')
+            ).order_by('-time_created').values('user_id__username')[:1]
+        )
+    )
 
     context = {
         'threads': threads,
@@ -59,3 +70,22 @@ class CommentView(FormView):
 
     def get_success_url(self):
         return reverse('thread', kwargs={'thread_slug': self.kwargs['thread_slug']})
+
+def new_thread(request):
+    context = {
+        'title': 'Новое обсуждение',
+        'form': TopicForm
+    }
+    return render(request, 'forumblock/newthread.html', context=context)
+
+class TopicViewSet(viewsets.ModelViewSet):
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
+
+class Topic_CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Topic_Category.objects.all()
+    serializer_class = Topic_CategorySerializer
+
+class Topic_CommentViewSet(viewsets.ModelViewSet):
+    queryset = Topic_Comment.objects.all()
+    serializer_class = Topic_CommentSerializer

@@ -36,4 +36,4 @@ class News_CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(News, NewsAdmin)
 admin.site.register(News_Category, News_CategoryAdmin)
-admin.site.register(Comments, CommentsAdmin)
+admin.site.register(News_Comment, CommentsAdmin)

@@ -2,9 +2,9 @@ from datetime import datetime
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Avg
 from django.contrib.auth.models import User
-
+from django.db.models import Count
 
 
 class Team(models.Model):
@@ -47,6 +47,12 @@ class Player(models.Model):
         verbose_name_plural = 'Игроки'
         ordering = ['id']
 
+    def get_games_played(self):
+        return self.playerscore_set.count()
+
+    def get_average_score(self):
+        return round(self.playerscore_set.aggregate(avg_score=Avg('score'))['avg_score'], 3)
+
 class Tournament(models.Model):
     title = models.CharField(max_length=25, verbose_name='Название турнира')
     discription = models.TextField(max_length=2000, verbose_name='Описание турнира')
@@ -67,7 +73,7 @@ class Tournament(models.Model):
 class Game(models.Model):
     tournament_id = models.ForeignKey('Tournament', on_delete=models.PROTECT, blank=True, null=True, verbose_name='Турнир')
     discipline_id = models.ForeignKey('Discipline', on_delete=models.PROTECT, blank=False, null=False, verbose_name='Дисциплина')
-    date_start = date_start = models.DateTimeField(verbose_name='Время начала')
+    date_start = models.DateTimeField(verbose_name='Время начала')
     team_id = models.ManyToManyField('Team', verbose_name='Участники', related_name='games')
     is_finished = models.BooleanField(default=False, verbose_name='Оконченность')
     winner_id = models.ForeignKey('Team', on_delete=models.PROTECT, blank=True, null=True, verbose_name='Победитель',related_name='won_games')

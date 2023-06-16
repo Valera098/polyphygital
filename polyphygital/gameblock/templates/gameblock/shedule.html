@@ -14,9 +14,9 @@
       в рамках турнира {{g.tournament_id}} </p>
     {% endif %}
     {% if g.is_finished == 1 %}
-      <p> Турнир окончен! Победитель - {{g.winner_id}} </p>
+      <p> Игра окончена! Победитель - {{g.winner_id}} </p>
     {% else %}
-      <p> Турнир не окончен.</p>
+      <p> Игра не окончена.</p>
     {% endif %}
     Играют команды: {% for team in g.team_id.all %}
             {{ team.name }}
