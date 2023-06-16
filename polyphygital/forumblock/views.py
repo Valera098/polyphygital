@@ -1,6 +1,7 @@
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
+from django.db.models import Max, OuterRef, Subquery
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -14,7 +15,14 @@ from newsblock.models import *
 
 
 def forum(request):
-    threads = Topic.objects.all()
+    threads = Topic.objects.annotate(
+        last_comment_time=Max('topic_comment__time_created'),
+        last_comment_author=Subquery(
+            Topic_Comment.objects.filter(
+                topic_id=OuterRef('pk')
+            ).order_by('-time_created').values('user_id__username')[:1]
+        )
+    )
 
     context = {
         'threads': threads,

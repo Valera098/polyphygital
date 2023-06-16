@@ -6,24 +6,7 @@
 <h1>Страница РАСПИСАНИЯ</h1>
 
 <ul>
-  {% for g in finished_games %}
-    <li>
-    <h2>Игра от {{g.date_start}}</h2>
-    <p> Играют в {{g.discipline_id}}
-    {% if g.tournament_id %}
-      в рамках турнира {{g.tournament_id}} </p>
-    {% endif %}
-    {% if g.is_finished == 1 %}
-      <p> Игра окончена! Победитель - {{g.winner_id}} </p>
-    {% else %}
-      <p> Игра не окончена.</p>
-    {% endif %}
-    Играют команды: {% for team in g.team_id.all %}
-            {{ team.name }}
-    {% endfor %}
-    </li>
-  {% endfor %}
-  {% for g in unfinished_games %}
+  {% for g in games %}
     <li>
     <h2>Игра от {{g.date_start}}</h2>
     <p> Играют в {{g.discipline_id}}
