@@ -2,9 +2,9 @@ from datetime import datetime
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Avg
 from django.contrib.auth.models import User
-
+from django.db.models import Count
 
 
 class Team(models.Model):
@@ -46,6 +46,12 @@ class Player(models.Model):
         verbose_name = 'Игрок'
         verbose_name_plural = 'Игроки'
         ordering = ['id']
+
+    def get_games_played(self):
+        return self.playerscore_set.count()
+
+    def get_average_score(self):
+        return round(self.playerscore_set.aggregate(avg_score=Avg('score'))['avg_score'], 3)
 
 class Tournament(models.Model):
     title = models.CharField(max_length=25, verbose_name='Название турнира')
