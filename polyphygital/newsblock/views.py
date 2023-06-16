@@ -15,7 +15,7 @@ from gameblock.urls import *
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics, viewsets
+from rest_framework import status, generics, viewsets, mixins
 from .models import News
 from django.shortcuts import render
 
@@ -38,15 +38,22 @@ def news(request):
 
     return render(request, 'newsblock/news.html', context=context)
 
-class NewsViewSet(viewsets.ModelViewSet):
+class NewsViewSet(mixins.ListModelMixin, 
+                  mixins.RetrieveModelMixin,
+                  viewsets.GenericViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
 
-class News_CategoryViewSet(viewsets.ModelViewSet):
+class News_CategoryViewSet(mixins.ListModelMixin, 
+                           mixins.RetrieveModelMixin,
+                           viewsets.GenericViewSet):
     queryset = News_Category.objects.all()
     serializer_class = News_CategorySerializer
 
-class News_CommentViewSet(viewsets.ModelViewSet):
+class News_CommentViewSet(mixins.ListModelMixin, 
+                          mixins.RetrieveModelMixin,
+                          mixins.CreateModelMixin,
+                          viewsets.GenericViewSet,):
     queryset = News_Comment.objects.all()
     serializer_class = News_CommentSerializer
 
