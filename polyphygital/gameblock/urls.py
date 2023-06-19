@@ -11,8 +11,11 @@ router.register(r'tournaments', TournamentViewSet)
 router.register(r'games', GameViewSet)
 router.register(r'playerscores', PlayerscoreViewSet)
 
+# urlpatterns = [
+#     path('shedule/', shedule, name = 'shedule'),
+#     path('ratings/', ratings, name = 'ratings' ),
+# ]
+
 urlpatterns = [
-    path('shedule/', shedule, name = 'shedule'),
-    path('ratings/', ratings, name = 'ratings' ),
     path('api/', include(router.urls)),
 ]
