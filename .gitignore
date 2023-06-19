@@ -317,3 +317,4 @@ dist
 
 /polyphygital/media/photos
 /polyphygital/db.sqlite3
+.vite/
