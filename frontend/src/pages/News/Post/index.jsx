@@ -12,12 +12,12 @@ export default function Post() {
 
     // TODO: urls router using
     return (<>
-        <div class="breadcrumbs">
-            <a href="/* homepage */">Главная</a>
-            <a href="{% url 'newspage' %}">Новости</a>
+        <div className="breadcrumbs">
+            <a href="">Главная</a>
+            <a href="">Новости</a>
             {post.title}
         </div>
-        <div class="h1">
+        <div className="h1">
             <h1>{post.title}</h1>
         </div>
         <div>

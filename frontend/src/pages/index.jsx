@@ -6,6 +6,7 @@ import Post from "./News/Post";
 import Forum from "./Forum";
 import Thread from "./Forum/Thread";
 import NewThread from "./Forum/NewThread";
+import news from "../api/news";
 
 export const router = createBrowserRouter([
   {
@@ -16,9 +17,12 @@ export const router = createBrowserRouter([
   {
     path: "/news",
     element: <News />,
+    loader: () => {
+      return news.getAll();
+    },
     children: [
       {
-        path: "/:postUniqueName",
+        path: ":postUniqueName",
         element: <Post />,
       },
     ]
@@ -28,11 +32,11 @@ export const router = createBrowserRouter([
     element: <Forum />,
     children: [
       {
-        path: "/:threadUniqueName",
+        path: ":threadUniqueName",
         element: <Thread />,
       },
       {
-        path: "/new-thread",
+        path: "new-thread",
         element: <NewThread />,
       },
     ]

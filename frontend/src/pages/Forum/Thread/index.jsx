@@ -12,12 +12,12 @@ export default function Thread() {
 
     // TODO: urls router using
     return (<>
-        <div class="breadcrumbs">
+        <div className="breadcrumbs">
             <a href="/* homepage */">Главная</a>
-            <a href="{% url 'newspage' %}">Новости</a>
+            <a href="">Новости</a>
             {thread.title}
         </div>
-        <div class="h1">
+        <div className="h1">
             <h1>{thread.title}</h1>
         </div>
         <div>

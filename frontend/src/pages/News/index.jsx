@@ -1,12 +1,14 @@
-import 'style.css';
+import { useLoaderData } from 'react-router-dom';
+import './style.css';
 
 export default function News() {
     // TODO: fetch data
-    const posts = [];
-    
+    const posts = useLoaderData();
+    console.log(posts);
     return (<>
         <div className="breadcrumbs">
-            <a href="{% url 'homepage' %}">Главная</a> > Новости
+            <a href="">Главная</a>
+            Новости
         </div>
         <div className="h1">
             <h1>Новостной блок</h1>
@@ -14,7 +16,7 @@ export default function News() {
         <div>
             <ul className="list-articles">
                 {posts.map(p =>
-                    <div className="card">
+                    <div className="card" key={p.id}>
                         <div className="card-image">
                             {p.image ?
                                 <img src="{{p.image.url}}" /> :
