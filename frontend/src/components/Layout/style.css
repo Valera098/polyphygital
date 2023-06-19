@@ -1,10 +1,11 @@
 @font-face {
-  font-family: "Shentox";
-  /* Браузер сначала попробует найти шрифт локально */
-  src: local("Shentox-Regular RUS.ttf")
+    font-family: "Shentox";
+    /* Браузер сначала попробует найти шрифт локально */
+    src: local("public/Shentox-Regular RUS.ttf")
 }
 
-html, body {
+html,
+body {
     font-family: Shentox;
     margin: 0px;
     background-color: #3b3b3b;
@@ -19,33 +20,33 @@ header {
     height: 80px;
     padding: 0 50px;
     background-color: #1E1F22;
-  }
-  
-.logo-container {
-display: flex;
-justify-content: center;
-align-items: center;
-width: 150px;
-height: 50px;
 }
-  
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 50px;
+}
+
 .logo-container img {
-max-width: 100%;
-height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 header nav {
-margin-right: auto;
+    margin-right: auto;
 }
 
-header  nav ul {
-display: flex;
-justify-content: center;
-align-items: center;
-list-style: none;
-margin: 0;
-padding: 0;
-margin-right: 0;
+header nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-right: 0;
 }
 
 header nav ul li:last-child {
@@ -53,42 +54,42 @@ header nav ul li:last-child {
     right: 0;
 }
 
-header  nav li {
-margin: 0 20px;
+header nav li {
+    margin: 0 20px;
 }
 
-header  nav li a:hover {
-color: #007bff;
+header nav li a:hover {
+    color: #007bff;
 }
 
 header nav a {
-text-decoration: none;
-color: #f7f7f7;
-font-size: 16px;
-font-weight: 800;
-text-transform: uppercase;
+    text-decoration: none;
+    color: #f7f7f7;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 /* Burger */
 
 @media (max-width: 860px) {
-header nav ul {
-    display: none;
-}
+    header nav ul {
+        display: none;
+    }
 }
 
 /* Добавить кнопку-бургер */
 .burger {
-display: none;
-cursor: pointer;
-/* Другие стили кнопки */
+    display: none;
+    cursor: pointer;
+    /* Другие стили кнопки */
 }
 
 /* Отобразить кнопку-бургер при ширине экрана менее 768px */
 @media (max-width: 768px) {
-.burger {
-    display: block;
-}
+    .burger {
+        display: block;
+    }
 }
 
 .burger {
@@ -96,8 +97,8 @@ cursor: pointer;
     height: 60px;
     background-image: url('burgermenu.svg');
     background-size: contain;
-    float:right;
-}    
+    float: right;
+}
 
 /* Content */
 
@@ -106,22 +107,22 @@ cursor: pointer;
 }
 
 .breadcrumbs {
-font-size: 14px;
-color: #999;
-margin-top: 50px;
-margin-bottom: 0;
-margin-left: 40px;
+    font-size: 14px;
+    color: #999;
+    margin-top: 50px;
+    margin-bottom: 0;
+    margin-left: 40px;
 }
 
 .breadcrumbs :hover {
-font-size: 14px;
-color: #007bff;
-margin-top: 10px;
-margin-bottom: 0;
+    font-size: 14px;
+    color: #007bff;
+    margin-top: 10px;
+    margin-bottom: 0;
 }
 
 a .breadcrumbs {
-  text-decoration:none;
+    text-decoration: none;
 }
 
 /* Footer */
@@ -138,36 +139,36 @@ footer {
 }
 
 .map-container {
-width: 25%;
-height: 400px;
-margin-bottom: 30px;
+    width: 25%;
+    height: 400px;
+    margin-bottom: 30px;
 }
 
 .map-container iframe {
-border: none;
-height: 100%;
-width: 100%;
+    border: none;
+    height: 100%;
+    width: 100%;
 }
 
 .footer-links {
-width: 25%;
-height: 100%;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .footer-links ul {
-list-style: none;
-padding: 0;
-margin: 0;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: left;
-height: 100%;
-margin-right: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    height: 100%;
+    margin-right: auto;
 }
 
 .footer-links li {
@@ -176,20 +177,20 @@ margin-right: auto;
 }
 
 .footer-links a {
-margin: 0 10px;
-color: #f7f7f7;
-text-decoration: none;
-font-size: 24px;
-font-weight: bold;
+    margin: 0 10px;
+    color: #f7f7f7;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .footer-links a:hover {
-color: #007bff;
+    color: #007bff;
 }
 
 .copyright p {
-color: #f7f7f7;
-margin-left: auto;
-margin-right: auto;
-text-align: center;
+    color: #f7f7f7;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
