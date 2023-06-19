@@ -29,29 +29,46 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# TODO: Check again, doesn't work
 INSTALLED_APPS = [
+    'newsblock.apps.NewsblockConfig',
+    'gameblock.apps.GameblockConfig',
+    'forumblock.apps.ForumblockConfig',
+    'frontend_helper.apps.FrontendHelperConfig',
+    'rest_framework']
+
+# Add CORS only for Development setup
+if DEBUG:
+    INSTALLED_APPS.append('corsheaders')
+
+INSTALLED_APPS.extend([
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'newsblock.apps.NewsblockConfig',
-    'gameblock.apps.GameblockConfig',
-    'forumblock.apps.ForumblockConfig',
-    'rest_framework'
-]
+])
+
+if DEBUG:
+    CORS_ORIGIN_ALLOW_ALL = True
+    CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware']
+
+if DEBUG:
+    MIDDLEWARE.append('corsheaders.middleware.CorsMiddleware')
+
+MIDDLEWARE.extend([
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+])
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -76,6 +93,22 @@ TEMPLATES = [
         },
     },
 ]
+
+DEFAULT_RENDERER = ['rest_framework.renderers.JSONRenderer']
+if DEBUG:
+    DEFAULT_RENDERER.append('rest_framework.renderers.BrowsableAPIRenderer')
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER,
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ]
+}
 
 WSGI_APPLICATION = 'polyphygital.wsgi.application'
 
