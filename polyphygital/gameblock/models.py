@@ -87,10 +87,10 @@ class Game(models.Model):
         return f"{self.discipline_id.name} ({datetime.strftime(self.date_start, '%d.%m.%Y %H:%M')}) - ID: {self.id}"
 
     def get_team1(self):
-        return self.team_id[0]
+        return self.team_id.all()[0]
 
     def get_team2(self):
-        return self.team_id[1]
+        return self.team_id.all()[1]
 
 class Playerscore(models.Model):
     player_id = models.ForeignKey('Player', on_delete=models.PROTECT, verbose_name='Игрок')

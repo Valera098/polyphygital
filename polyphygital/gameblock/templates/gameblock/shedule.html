@@ -1,32 +1,26 @@
-{% extends 'newsblock/base.html' %}
+{% extends 'newsblock/base.html' %} {% block content %}
 
-{% block content %}
-
-<br>
+<br />
 <h1>Страница РАСПИСАНИЯ</h1>
 
 <div class="card bg-secondary">
-  <div class="col-md-4">
-  </div>
+  <div class="col-md-4"></div>
 </div>
 
 <ul>
   {% for g in games %}
-    <li>
+  <li>
     <h2>Игра от {{g.date_start}}</h2>
-    <p> Играют в {{g.discipline_id}}
-    {% if g.tournament_id %}
-      в рамках турнира {{g.tournament_id}} </p>
-    {% endif %}
-    {% if g.is_finished == 1 %}
-      <p> Игра окончена! Победитель - {{g.winner_id}} </p>
+    <p>
+      Играют в {{g.discipline_id}} {% if g.tournament_id %} в рамках турнира
+      {{g.tournament_id}}
+    </p>
+    {% endif %} {% if g.is_finished == 1 %}
+    <p>Игра окончена! Победитель - {{g.winner_id}}</p>
     {% else %}
-      <p> Игра не окончена.</p>
-    {% endif %}
-    Играют команды: {% for team in g.team_id.all %}
-            {{ team.name }}
-    {% endfor %}
-    </li>
+    <p>Игра не окончена.</p>
+    {% endif %} Играют команды: {{ g.get_team1 }}, {{ g.get_team2 }}
+  </li>
   {% endfor %}
 </ul>
 
