@@ -21,6 +21,7 @@ from django.shortcuts import render
 
 from .serializers import *
 
+logo = "../media/service/logo_black.png"
 
 def index(request):
     context = {

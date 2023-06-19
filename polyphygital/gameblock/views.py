@@ -25,6 +25,7 @@ def shedule(request):
     context = {
         'title': 'Расписание',
         'games': games,
+
         # 'finished_games': finished_games,
         # 'unfinished_games': unfinished_games,
     }
