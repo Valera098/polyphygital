@@ -6,7 +6,9 @@
   </div>
   <div class="h1 mb-5 row">
     <h1 class="col-6">Форум</h1>
+    {% if user.is_authenticated %}
     <div class="col-6"><a href="{% url 'newthread' %}" class="btn btn-primary w-100">Создать обсуждение</a></div>
+    {% endif %}
   </div>
   <div>
     <ul class="list-articles list-unstyled">

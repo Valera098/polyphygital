@@ -1,4 +1,5 @@
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Max, OuterRef, Subquery
@@ -56,6 +57,7 @@ def show_thread(request, id):
     }
     return render(request, 'forumblock/thread.html', context=context)
 
+@login_required
 class CommentView(FormView):
     template_name = 'forumblock/thread.html'
     form_class = TopicCommentForm
@@ -73,6 +75,7 @@ class CommentView(FormView):
         return reverse('thread', kwargs={'thread_slug': self.kwargs['thread_slug']})
 
 
+@login_required
 def new_thread(request):
     if request.method == 'POST':
         form = TopicForm(request.POST)

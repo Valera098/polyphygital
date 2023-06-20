@@ -66,6 +66,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
     )
 
+# TODO: Fix data doesnt save
 @login_required
 def profile(request):
     user = request.user
@@ -82,7 +83,7 @@ def profile(request):
         else:
             player_form = PlayerForm(request.POST, request.FILES)
         password_form = CustomPasswordChangeForm(user=user, data=request.POST)
-        print(player)
+        print(user_form)
         if user_form.is_valid() and player_form.is_valid():
             user_form.save()
             player = player_form.save(commit=False)
