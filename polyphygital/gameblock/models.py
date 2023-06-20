@@ -47,11 +47,13 @@ class Player(models.Model):
         verbose_name_plural = 'Игроки'
         ordering = ['id']
 
-    def get_games_played(self):
+    @property
+    def games_count(self):
         return self.playerscore_set.count()
 
-    def get_average_score(self):
-        return round(self.playerscore_set.aggregate(avg_score=Avg('score'))['avg_score'], 3)
+    @property
+    def average_score(self):
+        return round(self.playerscore_set.aggregate(avg_score=Avg('score'))['avg_score'], 2)
 
 class Tournament(models.Model):
     title = models.CharField(max_length=25, verbose_name='Название турнира')
@@ -86,10 +88,12 @@ class Game(models.Model):
     def __str__(self):
         return f"{self.discipline_id.name} ({datetime.strftime(self.date_start, '%d.%m.%Y %H:%M')}) - ID: {self.id}"
 
-    def get_team1(self):
+    @property
+    def team1(self):
         return self.team_id.all()[0]
-
-    def get_team2(self):
+    
+    @property
+    def team2(self):
         return self.team_id.all()[1]
 
 class Playerscore(models.Model):

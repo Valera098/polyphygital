@@ -1,6 +1,8 @@
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -38,6 +40,63 @@ def news(request):
     }
 
     return render(request, 'newsblock/news.html', context=context)
+
+
+class UserForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+@login_required
+def profile(request):
+    user = request.user
+    is_player = Player.objects.filter(user_id=user).exists()
+    player = None
+
+    if is_player:
+        player = Player.objects.get(user_id=user)
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=user)
+        if is_player:
+            player_form = PlayerForm(request.POST, request.FILES, instance=player)
+        else:
+            player_form = PlayerForm(request.POST, request.FILES)
+        password_form = PasswordChangeForm(user=user, data=request.POST)
+        
+        if password_form['new_password1'].value() and not password_form.is_valid():
+            return redirect('profile', permanent=False)
+        
+        if user_form.is_valid() and player_form.is_valid():
+            user_form.save()
+            player = player_form.save(commit=False)
+            player.user_id = user
+            player.save()
+            
+            if password_form.is_valid():
+                password_form.save()
+                update_session_auth_hash(request, user)   
+            if is_player and request.POST.get('deletePlayerCheckbox') == 'on':
+                player.delete()
+                return redirect('profile', permanent=False)
+    else:
+        user_form = UserForm(instance=user)
+        if is_player:
+            player_form = PlayerForm(instance=player)
+        else:
+            player_form = PlayerForm()
+        password_form = PasswordChangeForm(user=user)
+    return render(request, 'newsblock/profile.html', {'user_form': user_form, 'player_form': player_form, 'password_form': password_form})
+
 
 class NewsViewSet(mixins.ListModelMixin, 
                   mixins.RetrieveModelMixin,

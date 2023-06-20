@@ -14,5 +14,6 @@ router.register(r'playerscores', PlayerscoreViewSet)
 urlpatterns = [
     path('shedule/', shedule, name = 'shedule'),
     path('ratings/', ratings, name = 'ratings' ),
+    path('register-player/', create_player, name = 'register-player'),
     path('api/', include(router.urls)),
 ]

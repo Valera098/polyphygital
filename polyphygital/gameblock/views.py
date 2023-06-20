@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
@@ -20,7 +21,7 @@ def shedule(request):
     end_date = current_time + timedelta(weeks=2)
     # finished_games = Game.objects.filter(is_finished=True, date_start__range=[start_date, current_time])
     # unfinished_games = Game.objects.filter(is_finished=False, date_start__range=[current_time, end_date])
-    games = Game.objects.filter(Q(is_finished=False, date_start__range=[current_time, end_date]) | Q(is_finished=True, date_start__range=[start_date, current_time]))
+    games = Game.objects.order_by('is_finished', 'date_start')
 
     context = {
         'title': 'Расписание',
@@ -32,16 +33,35 @@ def shedule(request):
     return render(request, 'gameblock/shedule.html', context=context)
 
 def ratings(request):
-    player_data = Player.objects.annotate(score_count=Count('playerscore')).filter(score_count__gte=5)
-    for player in player_data:
-        player.games_played = player.get_games_played()
-        player.average_score = player.get_average_score()
-    player_data = sorted(player_data, key=lambda player: player.average_score, reverse=True)
+    player_data = Player.objects.annotate(score_count=Count('playerscore')).filter(score_count__gte=5).order_by('-score_count')
+    
     context = {
         'title': 'Рейтинги',
         'player_data': player_data
     }
+    
     return render(request, 'gameblock/ratings.html', context=context)
+
+class PlayerForm(forms.ModelForm):
+    class Meta:
+        model = Player
+        fields = ('team_id', 'photo', 'nickname',)
+
+def create_player(request):
+    if not request.user.is_authenticated:
+        return redirect('homepage')
+    if Player.objects.filter(user_id=request.user).exists():
+        return redirect('ratings')
+    if request.method == 'POST':
+        form = PlayerForm(request.POST, request.FILES)
+        if form.is_valid():
+            player = form.save(commit=False)
+            player.user_id = request.user
+            player.save()
+            return redirect('ratings')
+    else:
+        form = PlayerForm()
+    return render(request, 'gameblock/create_player.html', {'form': form})
 
 class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all()

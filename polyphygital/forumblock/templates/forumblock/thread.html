@@ -1,38 +1,62 @@
-{% extends 'newsblock/base.html' %}
-
-{% block content %}
-<div class="breadcrumbs">
-    <a href="{% url 'homepage' %}">Главная</a> > <a href="{% url 'forum' %}">Новости</a> > {{title}}
-</div>
-<div class="h1">
-<h1>{{title}}</h1>
-</div>
-<div>
-    <p>Категория: {{thread.news_categories_id}}</p>
-    <p>Дата: {{thread.time_created|date:"d-m-Y H:i:s"}}</p>
-</div>
-
-{{thread.content}}
-
-<h2>Комментарии</h2>
-Всего комментариев: {{comments.count}}
-
-{% if user.is_authenticated %}
-<div>
-<p>Добавить комментарий</p>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Оставить комментарий</button>
-</form>
-</div>
-{% endif %}
-
-<div>
-{% for c in comments %}
-    <h3>{{c.user_id}} - {{c.time_created}}</h3>
-    {{c.content}}
-{% endfor %}
+{% extends 'newsblock/base.html' %} {% block content %}
+<div class="container bg-dark py-5">
+  <nav class="breadcrumbs mt-4 mb-4">
+    <a href="{% url 'homepage' %}">Главная</a> &gt;
+    <a href="{% url 'forum' %}">Форум</a> &gt; <a href="">{{title}} </a>
+  </nav>
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="mb-4">{{title}}</h1>
+      <div class="mb-4">
+        <p class="text-muted mb-1">Категория: {{thread.news_categories_id}}</p>
+        <p class="text-muted">
+          Дата: {{thread.time_created|date:"d-m-Y H:i:s"}}
+        </p>
+      </div>
+      <div class="mb-5">{{thread.content}}</div>
+      <h2 class="mb-4">Комментарии</h2>
+      <div class="mb-4">
+        <p class="text-muted">Всего комментариев: {{comments.count}}</p>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="mb-4">
+        <h3>Оставить комментарий</h3>
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="{{ form.comment.id_for_label }}"
+              >Текст комментария</label
+            >
+            {{ form.comment }}
+            <div class="pt-3 pb-3">
+                <textarea
+                    class="form-control"
+                    id="{{ form.comment.id_for_label }}"
+                    name="{{ form.comment.name }}"
+                    rows="5"
+                >
+                    {{ form.comment.value }}
+                </textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Оставить комментарий
+          </button>
+        </form>
+      </div>
+      {% endif %}
+      <div>
+        {% for c in comments %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{c.user_id}} - {{c.time_created}}</h5>
+            <p class="card-text">{{c.content}}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

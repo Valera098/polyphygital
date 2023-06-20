@@ -1,9 +1,22 @@
-{% extends 'newsblock/base.html' %}
+{% extends 'newsblock/base.html' %} {% block content %}
 
-{% block content %}
-
-    {% for p in player_data %}
-        <p>{{ p.nickname }} - Игр сыграно : {{p.games_played}} - Средний рейтинг : {{p.average_score}}</p>
-    {% endfor %}
+<div class="container d-flex justify-content-center p-5">
+    <div class="w-75 row justify-content-center">
+      <div class="col-12 mb-3">
+        <h1 class="text-center mb-3">Рейтинги:</h1>
+      </div>
+      {% for p in player_data %}
+      <div class="col-12 mb-3">
+        <div class="card bg-secondary">
+          <div class="card-body">
+            <h5 class="card-title">{{ p.nickname }}</h5>
+            <p class="card-text">Игр сыграно: <span class="badge bg-dark">{{ p.games_count }}</span></p>
+            <p class="card-text">Средний рейтинг: <span class="badge bg-dark">{{ p.average_score }}</span></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 
 {% endblock %}

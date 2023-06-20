@@ -1,47 +1,61 @@
-{% extends 'newsblock/base.html' %} {% block content %}
+{% extends 'newsblock/base.html' %} 
 
+{% load static %}
+
+{% block metadata %}
+  <link rel="stylesheet" href="{% static "/gameblock/css/shedule.css" %}">
+{% endblock %}
+
+{% block content %}
 <br />
-<div class="container bg-dark text-light">
-  <h1>Расписания матчей</h1>
-  <div class="card bg-secondary" style="height: 100px">
-    <div class="row g-0">
-      <div class="col-md-4 row">
-        <div class="col-4 d-flex align-items-center">
-          <p>Команда А</p>
-        </div>
-        <div class="col-4 d-flex align-items-center">
-          <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 100px;" alt="Avatar" />
+<div class="container bg-dark text-light w-75 mx-auto">
+  <h1 class="pb-3">Расписания матчей</h1>
+  <ul class="list-unstyled">
+    {% for g in games %}
+    <li class="pb-3">
+      <div class="card p-2 left-winner-border{% if g.is_finished %} bg-game-ended{% else %} bg-secondary{% endif %}">
+        <div class="row g-0">
+          <div class="col-md-4 row">
+            <div class="col-6 d-flex align-items-center justify-content-center">
+              <p>{{ g.team1 }}</p>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-center">
+              <img
+                src="{{ g.team1.logo.url }}"
+                class="command-logo rounded-circle {% if not g.is_finished %} game-in-progress {% endif %} {% if g.team1.id == g.winner_id.id %} winner-outline  {% else %} loser-outline {% endif %}"
+                alt="Avatar"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <h2>Игра от {{g.date_start}}</h2>
+            <p>
+              Игра - {{g.discipline_id}} {% if g.tournament_id %} в рамках
+              турнира {{g.tournament_id}} {% endif %}
+            </p>
+            {% if g.is_finished == 1 %}
+            <p>Игра окончена! Победитель - {{g.winner_id}}</p>
+            {% else %}
+            <p>Игра не окончена.</p>
+            {% endif %}
+          </div>
+          <div class="col-md-4 row">
+            <div class="col-6 d-flex align-items-center justify-content-center">
+              <img
+                src="{{ g.team2.logo.url }}"
+                class="command-logo rounded-circle {% if not g.is_finished %} game-in-progress {% endif %} {% if g.team2.id == g.winner_id.id %} winner-outline  {% else %} loser-outline {% endif %}"
+                alt="Avatar"
+              />
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-center">
+              <p>{{ g.team2 }}</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-4">
-
-      </div>
-      <div class="col-md-4 row ">
-        <div class="col-4">
-          <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 100px;" alt="Avatar" />
-        </div>
-        <div class="col-4 d-flex align-items-center">
-          <p>Команда А</p>
-        </div>
-      </div>
-    </div>
-  </div>
+    </li>
+    {% endfor %}
+  </ul>
 </div>
-<ul>
-  {% for g in games %}
-  <li>
-    <h2>Игра от {{g.date_start}}</h2>
-    <p>
-      Играют в {{g.discipline_id}} {% if g.tournament_id %} в рамках турнира
-      {{g.tournament_id}}
-    </p>
-    {% endif %} {% if g.is_finished == 1 %}
-    <p>Игра окончена! Победитель - {{g.winner_id}}</p>
-    {% else %}
-    <p>Игра не окончена.</p>
-    {% endif %} Играют команды: {{ g.get_team1 }}, {{ g.get_team2 }}
-  </li>
-  {% endfor %}
-</ul>
 
 {% endblock %}

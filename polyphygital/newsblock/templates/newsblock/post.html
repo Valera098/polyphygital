@@ -1,61 +1,72 @@
-{% extends 'newsblock/base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'newsblock/base.html' %} {% load static %} {% block content %}
 <div class="container">
-    <div class="breadcrumbs mt-4 mb-4">
-        <a href="{% url 'homepage' %}">Главная</a> > <a href="{% url 'newspage' %}">Новости</a> > <a href="">{{title}} </a>
+  <div class="breadcrumbs mt-4 mb-4">
+    <a href="{% url 'homepage' %}">Главная</a> &gt;
+    <a href="{% url 'newspage' %}">Новости</a> &gt; <a href="">{{title}} </a>
+  </div>
+  <div class="h1">
+    <h1>{{title}}</h1>
+  </div>
+  <div>
+    <p style="font-size: 16px" class="mt-4">
+      Категория: {{post.news_categories_id}}
+    </p>
+    <p style="font-size: 16px">
+      Опубликовано: {{post.time_created|date:"H:i d.m.Y"}}
+    </p>
+    <div class="row">
+      <div class="col-md-4">
+        {% if post.image %}
+        <img
+          src="{{post.image.url}}"
+          class="img-fluid float-left"
+          alt="Image"
+        />
+        {% else %}
+        <img
+          src="../media/photos/placeholder.jpg"
+          class="img-fluid float-left mr-3"
+          alt="Placeholder"
+        />
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <p>{{post.content}}</p>
+      </div>
     </div>
-    <div class="h1">
-        <h1>{{title}}</h1>
-    </div>
-    <div>
-    <p style="font-size: 16px" class="mt-4">Категория: {{post.news_categories_id}}</p>
-    <p style="font-size: 16px">Опубликовано: {{post.time_created|date:"H:i d.m.Y"}}</p>
-        <div class="row">
-            <div class="col-md-4">
-              {% if post.image %}
-              <img src="{{post.image.url}}" class="img-fluid float-left" alt="Image">
-              {% else %}
-              <img src="../media/photos/placeholder.jpg" class="img-fluid float-left mr-3" alt="Placeholder">
-              {% endif %}
-            </div>
-            <div class="col-md-8">
-              <p>{{post.content}}</p>
-            </div>
-        </div>
-    </div>
-    <br>
-    <h2>Оставить комментарий</h2>
-    Всего комментариев: {{comments.count}}
-
-    {% if user.is_authenticated %}
-    <div>
-
+  </div>
+  <br />
+  <h2>Оставить комментарий</h2>
+  Всего комментариев: {{comments.count}} {% if user.is_authenticated %}
+  <div>
     <form method="post">
-    <div class="mb-3">
-    {% csrf_token %}
-    {% for field in form %}
-    <div class="form-group pt-2 pb-1">
-
-        <p>{{ field.label_tag }}</p>
-        <textarea type="email" class="form-control mb-4" style="height: 100px; width: 650px;" id="{{ field.id }}" aria-describedby="emailHelp"></textarea>
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Отправить</button>
-    </div>
+      <div class="mb-3">
+        {% csrf_token %} {% for field in form %}
+        <div class="form-group pt-2 pb-1">
+          <p>{{ field.label_tag }}</p>
+          <textarea
+            type="email"
+            class="form-control mb-4"
+            style="height: 100px; width: 650px"
+            id="{{ field.id }}"
+            aria-describedby="emailHelp"
+          ></textarea>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </div>
     </form>
-
-    </div>
-    {% endif %}
-    <h2>Комментарии</h2>
-    <div class="col-md-6">
+  </div>
+  {% endif %}
+  <h2>Комментарии</h2>
+  <div class="col-md-6">
     {% for c in comments %}
-        <h5>{{c.user_id}}</h5>
-        <p style="font-size: 12px">{{c.time_created}}</p>
-        <p>{{c.content}}</p>
-        <hr>
+    <h5>{{c.user_id}}</h5>
+    <p style="font-size: 12px">{{c.time_created}}</p>
+    <p>{{c.content}}</p>
+    <hr />
     {% endfor %}
-    </div>
+  </div>
 </div>
 
 {% endblock %}
