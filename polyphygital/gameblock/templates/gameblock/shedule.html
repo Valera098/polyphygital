@@ -1,12 +1,32 @@
 {% extends 'newsblock/base.html' %} {% block content %}
 
 <br />
-<h1>Страница РАСПИСАНИЯ</h1>
+<div class="container bg-dark text-light">
+  <h1>Расписания матчей</h1>
+  <div class="card bg-secondary" style="height: 100px">
+    <div class="row g-0">
+      <div class="col-md-4 row">
+        <div class="col-4 d-flex align-items-center">
+          <p>Команда А</p>
+        </div>
+        <div class="col-4 d-flex align-items-center">
+          <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 100px;" alt="Avatar" />
+        </div>
+      </div>
+      <div class="col-md-4">
 
-<div class="card bg-secondary">
-  <div class="col-md-4"></div>
+      </div>
+      <div class="col-md-4 row ">
+        <div class="col-4">
+          <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 100px;" alt="Avatar" />
+        </div>
+        <div class="col-4 d-flex align-items-center">
+          <p>Команда А</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
 <ul>
   {% for g in games %}
   <li>
