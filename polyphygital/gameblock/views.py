@@ -42,10 +42,16 @@ def ratings(request):
     
     return render(request, 'gameblock/ratings.html', context=context)
 
+
 class PlayerForm(forms.ModelForm):
+    team_id = forms.ModelChoiceField(queryset=Team.objects.all(), label='Команда', widget=forms.Select(attrs={'class': 'form-select'}))
+    photo = forms.ImageField(label='Фото', widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
+    nickname = forms.CharField(label='Никнейм', widget=forms.TextInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Player
         fields = ('team_id', 'photo', 'nickname',)
+
 
 def create_player(request):
     if not request.user.is_authenticated:

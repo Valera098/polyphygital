@@ -43,18 +43,28 @@ def news(request):
 
 
 class UserForm(forms.ModelForm):
-    email = forms.EmailField(required=True)
+    username = forms.CharField(label='Имя пользователя', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.TextInput(attrs={'class': 'form-control'}),
-        }
 
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label='Текущий пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    new_password1 = forms.CharField(
+        label='Новый пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    new_password2 = forms.CharField(
+        label='Подтверждение нового пароля',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
 
 @login_required
 def profile(request):
@@ -71,7 +81,7 @@ def profile(request):
             player_form = PlayerForm(request.POST, request.FILES, instance=player)
         else:
             player_form = PlayerForm(request.POST, request.FILES)
-        password_form = PasswordChangeForm(user=user, data=request.POST)
+        password_form = CustomPasswordChangeForm(user=user, data=request.POST)
         
         if password_form['new_password1'].value() and not password_form.is_valid():
             return redirect('profile', permanent=False)
@@ -94,7 +104,7 @@ def profile(request):
             player_form = PlayerForm(instance=player)
         else:
             player_form = PlayerForm()
-        password_form = PasswordChangeForm(user=user)
+        password_form = CustomPasswordChangeForm(user=user)
     return render(request, 'newsblock/profile.html', {'user_form': user_form, 'player_form': player_form, 'password_form': password_form})
 
 
