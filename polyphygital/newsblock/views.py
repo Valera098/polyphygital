@@ -82,10 +82,7 @@ def profile(request):
         else:
             player_form = PlayerForm(request.POST, request.FILES)
         password_form = CustomPasswordChangeForm(user=user, data=request.POST)
-        
-        if password_form['new_password1'].value() and not password_form.is_valid():
-            return redirect('profile', permanent=False)
-        
+        print(player)
         if user_form.is_valid() and player_form.is_valid():
             user_form.save()
             player = player_form.save(commit=False)
@@ -94,10 +91,14 @@ def profile(request):
             
             if password_form.is_valid():
                 password_form.save()
-                update_session_auth_hash(request, user)   
-            if is_player and request.POST.get('deletePlayerCheckbox') == 'on':
+                update_session_auth_hash(request, user) 
+            
+            if is_player and request.POST['deletePlayerCheckbox'] == 'on':
                 player.delete()
                 return redirect('profile', permanent=False)
+        
+        if password_form['new_password1'].value() and not password_form.is_valid():
+            return redirect('profile', permanent=False)
     else:
         user_form = UserForm(instance=user)
         if is_player:
@@ -194,6 +195,11 @@ class RegisterUser(DataMixin, CreateView):
         c_def = self.get_user_context(title="Регистрация")
         return dict(list(context.items()) + list(c_def.items()))
 
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        for field in form.fields:
+            form.fields[field].widget.attrs.update({'class': 'form-control'})
+        return form
 
 class LoginUser(DataMixin, LoginView):
     form_class = AuthenticationForm
@@ -206,6 +212,12 @@ class LoginUser(DataMixin, LoginView):
 
     def get_success_url(self):
         return reverse_lazy('homepage')
+    
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        for field in form.fields:
+            form.fields[field].widget.attrs.update({'class': 'form-control'})
+        return form
 
 def logout_user(request):
     logout(request)
