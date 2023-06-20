@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{title}}</title>
-</head>
-<body>
-{% if user.is_authenticated %}
-<div>
-<p>Новое обсуждение</p>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Создать обсуждение</button>
-</form>
-</div>
-{% endif %}
-</body>
-</html>
+{% extends 'newsblock/base.html' %}
+
+{% block content %}
+  <div class="p-5">
+      <h1>Создание нового обсуждения</h1>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Создать тему</button>
+      </form>
+  </div>
+{% endblock %}

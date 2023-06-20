@@ -11,6 +11,6 @@ router.register(r'topic-comments', Topic_CommentViewSet)
 urlpatterns = [
     path('forum/', forum, name='forum'),
     path('forum/newthread', new_thread, name='newthread'),
-    path('forum/thread/<slug:thread_slug>', show_thread, name='thread'),
+    path('forum/thread/<int:id>', show_thread, name='thread'),
     path('api/', include(router.urls)),
 ]

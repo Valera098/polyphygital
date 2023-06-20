@@ -1,10 +1,12 @@
 {% extends 'newsblock/base.html' %} {% block content %}
 <div class="container bg-dark text-light">
   <div class="breadcrumbs mt-4 mb-4">
-    <a href="{% url 'homepage' %}">Главная</a> > Форум
+    <a href="{% url 'homepage' %}">Главная</a> &gt; 
+    <a href="{% url 'forum' %}">Форум</a>
   </div>
-  <div class="h1 mb-5">
-    <h1>Форум</h1>
+  <div class="h1 mb-5 row">
+    <h1 class="col-6">Форум</h1>
+    <div class="col-6"><a href="{% url 'newthread' %}" class="btn btn-primary w-100">Создать обсуждение</a></div>
   </div>
   <div>
     <ul class="list-articles">

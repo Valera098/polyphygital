@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.text import slugify
 from django.views.generic import CreateView, FormView
 import json
 
@@ -34,8 +35,8 @@ def forum(request):
 
     return render(request, 'forumblock/forum.html', context=context);
 
-def show_thread(request, thread_slug):
-    thread = get_object_or_404(Topic, slug=thread_slug)
+def show_thread(request, id):
+    thread = get_object_or_404(Topic, id=id)
     comments = Topic_Comment.objects.filter(topic_id=thread.id)
     if request.method == 'POST':
         form = TopicCommentForm(request.POST)
@@ -71,12 +72,28 @@ class CommentView(FormView):
     def get_success_url(self):
         return reverse('thread', kwargs={'thread_slug': self.kwargs['thread_slug']})
 
+
 def new_thread(request):
-    context = {
-        'title': 'Новое обсуждение',
-        'form': TopicForm
-    }
-    return render(request, 'forumblock/newthread.html', context=context)
+    if request.method == 'POST':
+        form = TopicForm(request.POST)
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.user_id = request.user
+
+            # Generate a unique slug for the topic
+            slug = slugify(topic.title)
+            i = 1
+            while Topic.objects.filter(slug=slug).exists():
+                slug = f"{slug}-{i}"
+                i += 1
+            topic.slug = slug
+
+            topic.save()
+            return redirect(topic.get_absolute_url())
+    else:
+        form = TopicForm()
+    return render(request, 'forumblock/newthread.html', {'form': form})
+
 
 class TopicViewSet(viewsets.ModelViewSet):
     queryset = Topic.objects.all()
