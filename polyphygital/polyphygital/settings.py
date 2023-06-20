@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+FRONTEND_DIR = os.path.abspath(os.path.join(BASE_DIR.parent, 'frontend'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-# TODO: Check again, doesn't work
 INSTALLED_APPS = [
     'newsblock.apps.NewsblockConfig',
     'gameblock.apps.GameblockConfig',
@@ -47,6 +46,7 @@ INSTALLED_APPS.extend([
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 ])
 
@@ -94,6 +94,8 @@ TEMPLATES = [
     },
 ]
 
+DEFAULT_PERMISSION = 'rest_framework.permissions.AllowAny'
+
 DEFAULT_RENDERER = ['rest_framework.renderers.JSONRenderer']
 if DEBUG:
     DEFAULT_RENDERER.append('rest_framework.renderers.BrowsableAPIRenderer')
@@ -103,7 +105,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [
+        DEFAULT_PERMISSION    
+    ],
     'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER,
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
@@ -158,9 +162,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+STATICFILES_DIRS = [os.path.join(FRONTEND_DIR, 'dist')]
+STATICFILES_STORAGE = ('react_container.storage.StaticFilesStorage')
+
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIR = []
 
 
 # Default primary key field type

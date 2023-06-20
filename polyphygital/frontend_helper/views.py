@@ -37,7 +37,7 @@ def login(request):
             
             data = {
                 'success': True, 
-                'user_detail' : {
+                'user': {
                     'first_name' : user.first_name,
                     'last_name' : user.last_name,
                     'email' : user.email,
@@ -85,20 +85,19 @@ def catchall_dev(request, upstream='http://localhost:5173'):
             reason="Not Implemented"
         )
 
-    elif content_type == 'text/html; charset=UTF-8':
+    if content_type == 'text/html; charset=UTF-8':
         return http.HttpResponse(
             content=engines['django'].from_string(response.text).render(),
             status=response.status_code,
             reason=response.reason,
         )
 
-    else:
-        return http.StreamingHttpResponse(
-            streaming_content=response.iter_content(2 ** 12),
-            content_type=content_type,
-            status=response.status_code,
-            reason=response.reason,
-        )
+    return http.StreamingHttpResponse(
+        streaming_content=response.iter_content(2 ** 12),
+        content_type=content_type,
+        status=response.status_code,
+        reason=response.reason,
+    )
 
 class CSRFTemplateView(TemplateView):
     @method_decorator(ensure_csrf_cookie)
