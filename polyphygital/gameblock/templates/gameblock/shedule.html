@@ -22,7 +22,8 @@
             <div class="col-6 d-flex align-items-center justify-content-center">
               <img
                 src="{{ g.team1.logo.url }}"
-                class="command-logo rounded-circle {% if not g.is_finished %} game-in-progress {% endif %} {% if g.team1.id == g.winner_id.id %} winner-outline  {% else %} loser-outline {% endif %}"
+                style = "width: 70px; height: 70px "
+                class="command-logo rounded-square {% if not g.is_finished %} game-in-progress {% endif %} {% if g.team1.id == g.winner_id.id %} winner-outline  {% else %} loser-outline {% endif %}"
                 alt="Avatar"
               />
             </div>
@@ -43,7 +44,8 @@
             <div class="col-6 d-flex align-items-center justify-content-center">
               <img
                 src="{{ g.team2.logo.url }}"
-                class="command-logo rounded-circle {% if not g.is_finished %} game-in-progress {% endif %} {% if g.team2.id == g.winner_id.id %} winner-outline  {% else %} loser-outline {% endif %}"
+                style = "width: 70px; height: 70px "
+                class="command-logo rounded-square {% if not g.is_finished %} game-in-progress {% endif %} {% if g.team2.id == g.winner_id.id %} winner-outline  {% else %} loser-outline {% endif %}"
                 alt="Avatar"
               />
             </div>

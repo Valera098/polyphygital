@@ -48,6 +48,7 @@
             type="email"
             class="form-control mb-4"
             style="height: 100px; width: 650px"
+            required
             id="{{ field.id }}"
             aria-describedby="emailHelp"
           ></textarea>
@@ -58,7 +59,9 @@
     </form>
   </div>
   {% endif %}
+  {% if comments %}
   <h2>Комментарии</h2>
+  {% endif %}
   <div class="col-md-6">
     {% for c in comments %}
     <h5>{{c.user_id}}</h5>

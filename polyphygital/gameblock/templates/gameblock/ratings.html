@@ -8,14 +8,22 @@
       {% for p in player_data %}
       <div class="col-12 mb-3">
         <div class="card bg-secondary">
-          <div class="card-body p-0 ps-3 pe-3 w-100">
+          <div class="card-body p-0 ps-3 pe-3 w-100 row container d-flex align-items-center">
+            <div class="col-5">
             <p class="card-text d-flex flex-row justify-content-between align-items-center">
               <span><h6 class="d-inline">#{{ forloop.counter }} <span class="badge bg-dark">{{ p.nickname }}</span></h6></span>
-              <span>
-                <span>Средний рейтинг: <span class="badge bg-dark">{{ p.average_score }}</span></span>
-                <span>Игр сыграно: <span class="badge bg-dark">{{ p.games_count }}</span></span>
-              </span>
             </p>
+            </div>
+            <div class="col-4">
+            <p class="card-text d-flex flex-row justify-content-between align-items-center">
+                <span>Средний рейтинг: <span class="badge bg-dark">{{ p.average_score }}</span></span>
+            </p>
+            </div>
+            <div class="col-3">
+            <p class="card-text d-flex flex-row justify-content-between align-items-center">
+                <span>Игр сыграно: <span class="badge bg-dark">{{ p.games_count }}</span></span>
+            </p>
+            </div>
           </div>
         </div>
       </div>

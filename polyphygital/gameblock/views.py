@@ -33,8 +33,12 @@ def shedule(request):
     return render(request, 'gameblock/shedule.html', context=context)
 
 def ratings(request):
-    player_data = Player.objects.annotate(score_count=Count('playerscore')).filter(score_count__gte=5).order_by('-score_count')
-    
+    player_data = Player.objects\
+        .annotate(avg_score=Avg('playerscore__score'))\
+        .annotate(score_count=Count('playerscore'))\
+        .filter(score_count__gte=5)\
+        .order_by('-avg_score') \
+        [:10]
     context = {
         'title': 'Рейтинги',
         'player_data': player_data
