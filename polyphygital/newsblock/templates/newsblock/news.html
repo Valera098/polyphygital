@@ -84,11 +84,10 @@ class News extends LitElement {
     ) {
       this.startPage = this.currentPage - range;
       this.endPage = this.currentPage + range;
-    }
-
-    if (this.currentPage + range >= this.totalPages) {
-      this.startPage = this.totalPages - this.maxPages + 1;
-      this.endPage = this.totalPages;
+      if (this.currentPage + range >= this.totalPages) {
+        this.startPage = this.totalPages - this.maxPages + 1;
+        this.endPage = this.totalPages;
+      }
     }
   }
 
