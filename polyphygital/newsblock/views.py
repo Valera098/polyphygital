@@ -65,6 +65,13 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         label='Подтверждение нового пароля',
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
     )
+    
+
+@login_required
+def delete_player_self(request):
+    player = get_object_or_404(Player, user_id=request.user)
+    player.delete()
+    return HttpResponse("OK")
 
 # TODO: Fix data doesnt save
 @login_required
@@ -83,7 +90,7 @@ def profile(request):
         else:
             player_form = PlayerForm(request.POST, request.FILES)
         password_form = CustomPasswordChangeForm(user=user, data=request.POST)
-        print(user_form)
+
         if user_form.is_valid() and player_form.is_valid():
             user_form.save()
             player = player_form.save(commit=False)
@@ -92,11 +99,7 @@ def profile(request):
             
             if password_form.is_valid():
                 password_form.save()
-                update_session_auth_hash(request, user) 
-            
-            if is_player and request.POST['deletePlayerCheckbox'] == 'on':
-                player.delete()
-                return redirect('profile', permanent=False)
+                update_session_auth_hash(request, user)
         
         if password_form['new_password1'].value() and not password_form.is_valid():
             return redirect('profile', permanent=False)

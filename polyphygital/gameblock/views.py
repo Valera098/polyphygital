@@ -49,7 +49,7 @@ def ratings(request):
 
 class PlayerForm(forms.ModelForm):
     team_id = forms.ModelChoiceField(queryset=Team.objects.all(), label='Команда', widget=forms.Select(attrs={'class': 'form-select'}))
-    photo = forms.ImageField(label='Фото', widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
+    photo = forms.ImageField(label='Фото', required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
     nickname = forms.CharField(label='Никнейм', widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:

@@ -16,5 +16,6 @@ urlpatterns = [
     path('login/', LoginUser.as_view(), name = 'login'),
     path('logout/', logout_user, name='logout'),
     path('profile/', profile, name='profile'),
+    path('delete-player-self/', delete_player_self, name='delete-player-self'),
     path('api/', include(router.urls)),
 ]
