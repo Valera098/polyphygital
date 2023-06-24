@@ -57,6 +57,9 @@ class News extends LitElement {
     this.posts = [];
     this.currentPage = 1;
     this.totalPages = 1;
+    this.maxPages = 10;
+    this.startPage = 1;
+    this.endPage = this.maxPages;
   }
 
   connectedCallback() {
@@ -69,6 +72,24 @@ class News extends LitElement {
     const data = await response.json();
     this.posts = data.results;
     this.totalPages = data.totalPages;
+    
+    const range = Math.floor(this.maxPages/2);
+    
+    this.startPage = 1;
+    this.endPage = this.totalPages > this.maxPages ? this.maxPages : this.totalPages;
+
+    if (
+      this.currentPage > (range + this.maxPages % 2) && 
+      this.totalPages > this.maxPages
+    ) {
+      this.startPage = this.currentPage - range;
+      this.endPage = this.currentPage + range;
+    }
+
+    if (this.currentPage + range >= this.totalPages) {
+      this.startPage = this.totalPages - this.maxPages + 1;
+      this.endPage = this.totalPages;
+    }
   }
 
   static get styles() {
@@ -78,23 +99,29 @@ class News extends LitElement {
     ];
   }
 
+  paginationElement() {
+    return html`
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          ${Array(this.endPage - this.startPage + 1).fill(null).map(
+            (_, index) => {
+              const page = index + this.startPage;
+              return html`
+                <li class="page-item">
+                  <button class="${page === this.currentPage ? 'active ' : ''}page-link" @click="${() => this.changePage(page)}"
+                    >${page}</button>
+              `;
+            }
+          )}
+        </ul>
+      </nav>
+    `;
+  }
+
   render() {
     return html`
       <div>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            ${Array(this.totalPages).fill(null).map(
-              (_, index) => {
-                const page = index + 1;
-                return html`
-                  <li class="page-item">
-                    <button class="${page === this.currentPage ? 'active ' : ''}page-link" @click="${() => this.changePage(page)}"
-                      >${page}</button>
-                `;
-              }
-            )}
-          </ul>
-        </nav>
+        ${this.paginationElement()}
         ${this.posts.map(
           (p) => html`
             <div class="card mb-3 bg-secondary" style="max-width: 100%;">
@@ -117,20 +144,7 @@ class News extends LitElement {
             </div>
           `
         )}
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            ${Array(this.totalPages).fill(null).map(
-              (_, index) => {
-                const page = index + 1;
-                return html`
-                  <li class="page-item">
-                    <button class="${page === this.currentPage ? 'active ' : ''}page-link" @click="${() => this.changePage(page)}"
-                      >${page}</button>
-                `;
-              }
-            )}
-          </ul>
-        </nav>
+        ${this.paginationElement()}
       </div>
     `;
   }
