@@ -5,7 +5,7 @@ class NewsSerializer(serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField()
     class Meta:
         model = News
-        fields = ['id','title', 'slug', 'news_categories_id', 'category_name', 'time_created', 'content', 'image', 'is_visible']
+        fields = ['id','title', 'slug', 'news_categories_id', 'category_name', 'get_absolute_url', 'time_created', 'content', 'image', 'is_visible']
     def get_category_name(self, obj):
         return News_Category.objects.get(id=obj.news_categories_id.id).name
     
