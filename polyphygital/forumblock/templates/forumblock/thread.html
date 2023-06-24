@@ -24,19 +24,15 @@
         <form method="post">
           {% csrf_token %}
           <div class="form-group">
-            <label for="{{ form.comment.id_for_label }}"
-              >Текст комментария</label
-            >
-            {{ form.comment }}
+            <label for="{{ form.content.id_for_label }}">Текст комментария</label>
             <div class="pt-3 pb-3">
                 <textarea
                     class="form-control"
-                    id="{{ form.comment.id_for_label }}"
-                    name="{{ form.comment.name }}"
+                    id="{{ form.content.id_for_label }}"
+                    name="{{ form.content.name }}"
+                    required
                     rows="5"
-                >
-                    {{ form.comment.value }}
-                </textarea>
+                ></textarea>
             </div>
           </div>
           <button type="submit" class="btn btn-primary">

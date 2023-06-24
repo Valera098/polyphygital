@@ -47,8 +47,9 @@ def show_thread(request, id):
             comment.user_id = request.user
             comment.save()
             form = TopicCommentForm()
-    else:
-        form = TopicCommentForm()
+        return redirect(thread.get_absolute_url())
+    
+    form = TopicCommentForm()
     context = {
         'title': thread.title,
         'thread': thread,
@@ -56,24 +57,6 @@ def show_thread(request, id):
         'form': form,
     }
     return render(request, 'forumblock/thread.html', context=context)
-
-@login_required
-class CommentView(FormView):
-    template_name = 'forumblock/thread.html'
-    form_class = TopicCommentForm
-
-    def form_valid(self, form):
-        thread = get_object_or_404(Topic, slug=self.kwargs['thread_slug'])
-        comments = form.save(commit=False)
-        comments.topic_id = thread
-        comments.user_id = self.request.user
-        comments.time_created = timezone.now()
-        comments.save()
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('thread', kwargs={'thread_slug': self.kwargs['thread_slug']})
-
 
 @login_required
 def new_thread(request):

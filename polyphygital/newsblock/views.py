@@ -91,25 +91,25 @@ def profile(request):
             player_form = PlayerForm(request.POST, request.FILES)
         password_form = CustomPasswordChangeForm(user=user, data=request.POST)
 
-        if user_form.is_valid() and player_form.is_valid():
+        if user_form.is_valid():
             user_form.save()
+            
+        if password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, user)
+        
+        if player_form.is_valid():
             player = player_form.save(commit=False)
             player.user_id = user
             player.save()
-            
-            if password_form.is_valid():
-                password_form.save()
-                update_session_auth_hash(request, user)
         
-        if password_form['new_password1'].value() and not password_form.is_valid():
-            return redirect('profile', permanent=False)
+        return redirect('profile', permanent=False)
+    user_form = UserForm(instance=user)
+    if is_player:
+        player_form = PlayerForm(instance=player)
     else:
-        user_form = UserForm(instance=user)
-        if is_player:
-            player_form = PlayerForm(instance=player)
-        else:
-            player_form = PlayerForm()
-        password_form = CustomPasswordChangeForm(user=user)
+        player_form = PlayerForm()
+    password_form = CustomPasswordChangeForm(user=user)
     return render(request, 'newsblock/profile.html', {'user_form': user_form, 'player_form': player_form, 'password_form': password_form})
 
 
@@ -159,8 +159,9 @@ def show_post(request, post_slug):
             comment.user_id = request.user
             comment.save()
             form = CommentForm()
-    else:
-        form = CommentForm()
+        return redirect('post', post_slug=post_slug)
+
+    form = CommentForm()
     context = {
         'title': post.title,
         'post': post,
