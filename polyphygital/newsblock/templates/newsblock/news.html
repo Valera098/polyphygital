@@ -39,6 +39,15 @@
 <script type="module">
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 
+function formatDate(date) {
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${hours}:${minutes} ${day}.${month}.${year}`;
+}
+
 class News extends LitElement {
   createRenderRoot() {
     return this;
@@ -133,9 +142,9 @@ class News extends LitElement {
                 <div class="col-md-8">
                   <div class="card-body">
                     <h5 class="card-title">${p.title}</h5>
-                    <p class="card-text mt-0"><small class="text-body-secondary">${p.news_categories_id}</small></p>
-                    <p class="card-text mt-0"><small class="text-body-secondary">${new Date(p.time_created).toLocaleString()}</small></p>
-                    <p class="card-text">${p.content.substring(0, 100)}</p>
+                    <p class="card-text mt-0"><small class="text-body-secondary">${p.category_name}</small></p>
+                    <p class="card-text mt-0"><small class="text-body-secondary">${formatDate(new Date(p.time_created))}</small></p>
+                    <p class="card-text">${p.content.split(' ').slice(0, 100).join(' ')}</p>
                     <a href="${p.get_absolute_url}"><button type="button" class="btn btn-primary">Читать</button></a>
                   </div>
                 </div>

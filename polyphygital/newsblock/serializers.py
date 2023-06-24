@@ -2,10 +2,13 @@ from rest_framework import serializers, routers
 from .models import *
 
 class NewsSerializer(serializers.ModelSerializer):
+    category_name = serializers.SerializerMethodField()
     class Meta:
         model = News
-        fields = ['id','title', 'slug', 'news_categories_id', 'time_created', 'content', 'image', 'is_visible']
-
+        fields = ['id','title', 'slug', 'news_categories_id', 'category_name', 'time_created', 'content', 'image', 'is_visible']
+    def get_category_name(self, obj):
+        return News_Category.objects.get(id=obj.news_categories_id.id).name
+    
 class News_CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = News_Category

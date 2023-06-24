@@ -14,22 +14,22 @@
           </div>
         </div>
         <div class="mb-3">
-          <label for="{{ form.team_id.id_for_label }}" class="form-label">Team:</label>
+          <label for="{{ form.team_id.id_for_label }}" class="form-label">Команда:</label>
           <div class="input-group d-flex align-items-center justify-content-center">
             {{ form.team_id }}
             <div class="invalid-feedback">{{ form.team_id.errors }}</div>
           </div>
         </div>
         <div class="mb-4">
-          <label for="{{ form.photo.id_for_label }}" class="form-label">Photo:</label>
+          <label for="{{ form.photo.id_for_label }}" class="form-label">Фото:</label>
           <div class="input-group d-flex align-items-left justify-content-center">
-            <div class="input-group-prepend" style="transform: translateX(18%);">
+            <div class="input-group-prepend w-100">
               {{ form.photo }}
             </div>
             <div class="invalid-feedback">{{ form.photo.errors }}</div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary d-block mx-auto">Create player</button>
+        <button type="submit" class="btn btn-primary d-block w-100">Зарегистрироваться</button>
       </form>
     </div>
   </div>
