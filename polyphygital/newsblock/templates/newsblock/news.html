@@ -9,7 +9,7 @@
 <div class="h1 mb-5">
     <h1>Новостной блок</h1>
 </div>
-    {% for p in posts %}
+    {% comment %} {% for p in posts %}
     <div class="card mb-3 bg-secondary" style="max-width: 100%;">
             <div class="row g-0">
               <div class="col-md-4">
@@ -30,6 +30,131 @@
               </div>
             </div>
     </div>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
+    <news-element></news-element>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+
+class News extends LitElement {
+  createRenderRoot() {
+    return this;
+  }
+
+  static get properties() {
+    return {
+      posts: { type: Array },
+      currentPage: { type: Number },
+      totalPages: { type: Number },
+    };
+  }
+
+  constructor() {
+    super();
+    this.posts = [];
+    this.currentPage = 1;
+    this.totalPages = 1;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.loadPosts();
+  }
+
+  async loadPosts() {
+    const response = await fetch(`/api/news/?page=${this.currentPage}`);
+    const data = await response.json();
+    this.posts = data.results;
+    this.totalPages = data.totalPages;
+  }
+
+  static get styles() {
+    return [
+      css`
+        .pagination {
+          display: flex;
+          justify-content: center;
+          margin-top: 20px;
+        }
+
+        .pagination button {
+          margin: 0 5px;
+        }
+
+        .pagination button.active {
+          font-weight: bold;
+        }
+      `
+    ];
+  }
+
+  render() {
+    return html`
+      <div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            ${Array(this.totalPages).fill(null).map(
+              (_, index) => {
+                const page = index + 1;
+                return html`
+                  <li class="page-item">
+                    <button class="${page === this.currentPage ? 'active ' : ''}page-link" @click="${() => this.changePage(page)}"
+                      >${page}</button>
+                `;
+              }
+            )}
+          </ul>
+        </nav>
+        ${this.posts.map(
+          (p) => html`
+            <div class="card mb-3 bg-secondary" style="max-width: 100%;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  ${p.image
+                    ? html`<img src="${p.image}" class="img-fluid rounded-start" style="width: 400px; height: 400px" alt="...">`
+                    : html`<img src="../media/service/placeholder.jpg" class="img-fluid rounded-start" style="width: 400px; height: 400px" alt="...">`}
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">${p.title}</h5>
+                    <p class="card-text mt-0"><small class="text-body-secondary">${p.news_categories_id}</small></p>
+                    <p class="card-text mt-0"><small class="text-body-secondary">${new Date(p.time_created).toLocaleString()}</small></p>
+                    <p class="card-text">${p.content.substring(0, 100)}</p>
+                    <a href="${p.get_absolute_url}"><button type="button" class="btn btn-primary">Читать</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `
+        )}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            ${Array(this.totalPages).fill(null).map(
+              (_, index) => {
+                const page = index + 1;
+                return html`
+                  <li class="page-item">
+                    <button class="${page === this.currentPage ? 'active ' : ''}page-link" @click="${() => this.changePage(page)}"
+                      >${page}</button>
+                `;
+              }
+            )}
+          </ul>
+        </nav>
+      </div>
+    `;
+  }
+
+  async changePage(page) {
+    this.currentPage = page;
+    await this.loadPosts();
+  }
+}
+
+customElements.define('news-element', News);
+
+</script>
 {% endblock %}

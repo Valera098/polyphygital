@@ -18,6 +18,8 @@ from gameblock.urls import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics, viewsets, mixins
+from rest_framework.pagination import PageNumberPagination
+
 from .models import News
 from django.shortcuts import render
 
@@ -113,11 +115,27 @@ def profile(request):
     return render(request, 'newsblock/profile.html', {'user_form': user_form, 'player_form': player_form, 'password_form': password_form})
 
 
+class NewsPagination(PageNumberPagination):
+    page_size = 5
+
 class NewsViewSet(mixins.ListModelMixin, 
                   mixins.RetrieveModelMixin,
                   viewsets.GenericViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
+    pagination_class = NewsPagination
+    
+    def list(self, request):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            response = self.get_paginated_response(serializer.data)
+            response.data['totalPages'] = self.paginator.page.paginator.num_pages
+            return response
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 class News_CategoryViewSet(mixins.ListModelMixin, 
                            mixins.RetrieveModelMixin,
